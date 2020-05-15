@@ -1,6 +1,8 @@
 package calculatorTask.service;
 
 import calculatorTask.calcInterface.Calculable;
+import calculatorTask.operations.Operations;
+import jdk.dynalink.Operation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,11 +14,12 @@ import java.util.List;
 public class Calculator {
     private double n1 = 0;
     private double n2 = 0;
-    private List<Calculable> defaultOperations;
+    private List<Operations> defaultOperations;
 
-    public Calculator(Calculable... calculables) {
+
+    public Calculator(Operations... operations) {
         defaultOperations = new ArrayList<>();
-        Collections.addAll(defaultOperations, calculables);
+        Collections.addAll(defaultOperations, operations);
     }
 
     public void startCalculator() {
@@ -85,9 +88,9 @@ public class Calculator {
     }
 
     private Calculable getOperator(String operation) {
-        for (Calculable cal : defaultOperations) {
-            if (cal.getOperator().equals(operation)) {
-                return cal;
+        for (Operations operations : defaultOperations) {
+            if (operations.getOperation().equals(operation)) {
+                return operations.getCalc();
             }
         }
         return null;
@@ -96,8 +99,8 @@ public class Calculator {
     private String getSymbolOperations() {
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
-        for (Calculable c : defaultOperations) {
-            sb.append(c.getOperator());
+        for (Operations operation : defaultOperations) {
+            sb.append(operation.getOperation());
             sb.append(" ");
         }
         return sb.toString();
